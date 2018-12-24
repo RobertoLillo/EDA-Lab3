@@ -5,6 +5,6 @@
 
 /********** Estructuras **********/
 
-
 /********** Prototipos **********/
-int obtenerInformacionBasica(int* condiciones, int* jugador);
+int obtenerInformacionBasica(int *condiciones, int *jugador);
+void obtenerInformacionCasillas(int cantidad, char *tipoCasilla);
