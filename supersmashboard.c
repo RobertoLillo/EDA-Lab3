@@ -85,11 +85,13 @@ void obtenerInformacionCasillas(int cantidad, char *tipoCasilla)
         }
 
         fclose(punteroArchivo);
+        return;
     }
     else
     {
         printf("No se pudo leer el archivo\n");
         fclose(punteroArchivo);
+        return;
     }
 }
 
@@ -131,11 +133,13 @@ void llenarTablero(int cantidad, int **tablero)
                 token = strtok(NULL, " ");
             }
         }
+        return;
     }
     else
     {
         printf("No se pudo leer el archivo\n");
         fclose(punteroArchivo);
+        return;
     }
 }
 
@@ -147,6 +151,7 @@ void buscarPosicionInicial(int cantidad, char *tipoCasilla, int *jugador)
         if (tipoCasilla[i] == 'b')
         {
             jugador[1] = i + 1;
+            return;
         }
     }
 }
@@ -272,6 +277,7 @@ void tipoDePoder(int cantidad, int *jugador, int **tablero, char *tipoCasilla)
     {
         // Escribir en el archivo de salida que no ocurre cambio
     }
+    return;
 }
 
 void imprimirDatosJuego(int cantidad, int *condiciones)
@@ -279,6 +285,7 @@ void imprimirDatosJuego(int cantidad, int *condiciones)
     printf("\nCantidad de nodos: %d\n", cantidad);
     printf("Precio de cada estrella: %d\n", condiciones[0]);
     printf("Estrellas necesarias para ganar: %d\n", condiciones[1]);
+    return;
 }
 
 void imprimirDatosJugador(int *jugador)
@@ -294,6 +301,7 @@ void imprimirDatosJugador(int *jugador)
     printf("Posicion actual: %d\n", jugador[1]);
     printf("Cantidad de monedas: %d\n", jugador[2]);
     printf("Cantidad de estrellas: %d\n", jugador[3]);
+    return;
 }
 
 void imprimirMatrizAdyacencia(int cantidad, int **tablero)
@@ -318,6 +326,7 @@ void imprimirMatrizAdyacencia(int cantidad, int **tablero)
         printf("\n");
     }
     printf("\n");
+    return;
 }
 
 void imprimirTiposCasilla(int cantidad, char *tipoCasilla)
@@ -341,9 +350,9 @@ void imprimirTiposCasilla(int cantidad, char *tipoCasilla)
         {
             printf("Nodo %d: %c (%c monedas)\n", i + 1, tipoCasilla[i], tipoCasilla[i]);
         }
-        
     }
     printf("\n");
+    return;
 }
 
 int stringToInt(char string[])
@@ -382,6 +391,7 @@ void insertarEnLista(lista *actual, char elemento)
         aux->sgte = nuevoNodo;
         actual->largo++;
     }
+    return;
 }
 
 lista borrarLista(lista actual)
