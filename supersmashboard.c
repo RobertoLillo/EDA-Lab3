@@ -22,31 +22,7 @@ int main()
     }
     llenarTablero(cantidadNodos, filas);
 
-    printf("\nMatriz de adyancencia:\n  1 2 3 4 5 6 7 8 9 0 1\n");
-    for (i = 0; i < cantidadNodos; i++)
-    {
-        if (i < 9)
-        {
-            printf("%d ", i + 1);
-        }
-        else
-        {
-            printf("%d ", i - 9);
-        }
-
-        for (j = 0; j < cantidadNodos; j++)
-        {
-            printf("%d ", tablero[i][j]);
-        }
-        printf("\n");
-    }
-    printf("\n");
-
-    for (i = 0; i < 5; i++)
-    {
-        printf("%d \n", (rand() % 100) + 1);
-    }
-
+    imprimirMatrizAdyacencia(cantidadNodos, filas);
 
     return 0;
 }
@@ -156,44 +132,151 @@ void llenarTablero(int cantidad, int **tablero)
     }
 }
 
-int tipoDePoder(int *jugador, int **tablero, char *tipoCasilla)
+void tipoDePoder(int cantidad, int *jugador, int **tablero, char *tipoCasilla)
 {
-    int numeroProbabilidad = (rand() % 100) + 1;    // Numeros del 1 al 100
+    // cantidad: cantidad de nodos del tablero
+    // jugador: [personalidad, posicion, monedas, estrellas]
+    // tablero: matriz Cantidad X Cantidad
+    // tipoCasilla: [tipo, tipo, tipo, etc...]
+
+    int numeroProbabilidad = (rand() % 100) + 1; // Numeros del 1 al 100
 
     if (numeroProbabilidad <= 30)
     {
-
+        // El jugador gana una moneda
+        jugador[2] = jugador[2] + 1; 
     }
     else if (numeroProbabilidad >= 31 && numeroProbabilidad <= 40)
     {
-
+        // El jugador se teletransporta
+        int posicionNueva;
+        int verificador = 0;
+        while (verificador = 0)
+        {
+            posicionNueva = (rand() % cantidad) + 1; // Numero de 1 a cantidad
+            if (posicionNueva != jugador[1])
+            {
+                jugador[1] = posicionNueva;
+                verificador = 1;
+            }
+        }
     }
-    else if (numeroProbabilidad == 41) 
+    else if (numeroProbabilidad == 41)
     {
-
+        // EL jugador gana una estrella
+        jugador[3] = jugador[3] + 1;
     }
     else if (numeroProbabilidad >= 42 && numeroProbabilidad <= 46)
     {
-
+        // Se cambia el sentido de los caminos
+        int i, j;
+        int tableroAux[cantidad][cantidad];
+        for (i = 0; i < cantidad; i++)
+        {
+            for (j = 0; j < cantidad;j++)
+            {
+                tableroAux[j][i] = tablero[i][j];
+            }
+        }
+        tablero = tableroAux;
     }
     else if (numeroProbabilidad >= 47 && numeroProbabilidad <= 51)
     {
-
+        // Se agrega un camino
+        int nodo1, nodo2;
+        int verificador = 0;
+        while (verificador = 0)
+        {
+            nodo1 = (rand() % cantidad) + 1; // Numero de 1 a cantidad
+            nodo2 = (rand() % cantidad) + 1; // Numero de 1 a cantidad
+            if (tablero[nodo1][nodo2] == 0)
+            {
+                tablero[nodo1][nodo2] = 1;
+            }
+        }
     }
     else if (numeroProbabilidad >= 52 && numeroProbabilidad <= 56)
     {
-
+        // Se elimina un camino
+        int i, nodo1, nodo2, cantidadCaminos, contador;
+        int verificador = 0;
+        while (verificador = 0)
+        {
+            cantidadCaminos = 0;
+            nodo1 = (rand() % cantidad) + 1; // Numero de 1 a cantidad
+            for (i = 0; i < cantidad; i++)
+            {
+                if (tablero[nodo1][i] == 1)
+                {
+                    cantidadCaminos++;
+                }
+            }
+            if (cantidadCaminos > 0)
+            {
+                contador = (rand() % cantidadCaminos) + 1;
+                for (i = 0; i < cantidad; i++)
+                {
+                    if (tablero[nodo1][i] == 1)
+                    {
+                        contador--;
+                    }
+                    if (contador == 0)
+                    {
+                        nodo2 = i;
+                    }
+                }
+                tablero[nodo1][nodo2] = 0;
+                verificador = 1;
+            }
+        }
     }
     else if (numeroProbabilidad >= 57 && numeroProbabilidad <= 76)
     {
-
+        // Se intercambia el tipo de dos casillas
+        char tipoAux;
+        int tipo1, tipo2;
+        int verificador = 0;
+        while (verificador = 0)
+        {
+            tipo1 = (rand() % cantidad) + 1;
+            tipo2 = (rand() % cantidad) + 1;
+            if (tipo1 != tipo2)
+            {
+                tipoAux = tipoCasilla[tipo2];
+                tipoCasilla[tipo2] = tipoCasilla[tipo1];
+                tipoCasilla[tipo1] = tipoAux;
+                verificador = 1; 
+            }
+        }
     }
     else // (77 <= numeroProbabilidad <= 100)
     {
-
+        // No ocurre ningun cambio
     }
+}
 
-    return numeroProbabilidad;
+void imprimirMatrizAdyacencia(int cantidad, int **tablero) 
+{
+    int i, j;
+    printf("\nMatriz de adyancencia:\n  1 2 3 4 5 6 7 8 9 0 1\n");
+    for (i = 0; i < cantidad; i++)
+    {
+        if (i < 9)
+        {
+            printf("%d ", i + 1);
+        }
+        else
+        {
+            printf("%d ", i - 9);
+        }
+
+        for (j = 0; j < cantidad; j++)
+        {
+            printf("%d ", tablero[i][j]);
+        }
+        printf("\n");
+    }
+    printf("\n");
 }
 
 int stringToInt(char string[])

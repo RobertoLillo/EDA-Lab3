@@ -9,5 +9,6 @@
 int obtenerInformacionBasica(int *condiciones, int *jugador);
 void obtenerInformacionCasillas(int cantidad, char *tipoCasilla);
 void llenarTablero(int cantidad, int **tablero);
-int tipoDePoder(int *jugador, int **tablero, char *tipoCasilla);
+void tipoDePoder(int cantidad, int *jugador, int **tablero, char *tipoCasilla);
+void imprimirMatrizAdyacencia(int cantidad, int **tablero);
 int stringToInt(char string[]);
