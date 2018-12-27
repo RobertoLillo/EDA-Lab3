@@ -251,7 +251,7 @@ void tipoDePoder(int cantidad, int *jugador, int **tablero, char *tipoCasilla)
     }
     else // (77 <= numeroProbabilidad <= 100)
     {
-        // No ocurre ningun cambio
+        // Escribir en el archivo de salida que no ocurre cambio
     }
 }
 
