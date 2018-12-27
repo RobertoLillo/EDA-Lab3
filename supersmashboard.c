@@ -307,7 +307,19 @@ void imprimirDatosJugador(int *jugador)
 void imprimirMatrizAdyacencia(int cantidad, int **tablero)
 {
     int i, j;
-    printf("\nMatriz de adyancencia:\n  1 2 3 4 5 6 7 8 9 0 1\n");
+    printf("\nMatriz de adyancencia:\n  ");
+    for (i = 0; i< cantidad; i++)
+    {
+        if (i < 9)
+        {
+            printf("%d ", i + 1);
+        }
+        else 
+        {
+            printf("%d ", i - 9);
+        }
+    }
+    printf("\n");
     for (i = 0; i < cantidad; i++)
     {
         if (i < 9)
