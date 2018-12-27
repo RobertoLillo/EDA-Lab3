@@ -43,6 +43,9 @@ int obtenerInformacionBasica(int *condiciones, int *jugador)
         int cantidad = 0;
         char linea[100];
         fscanf(punteroArchivo, "%i %i %i\n", &condiciones[0], &condiciones[1], &jugador[0]);
+        jugador[1] = 0;
+        jugador[2] = 0;
+        jugador[3] = 0;
 
         while (!feof(punteroArchivo))
         {
