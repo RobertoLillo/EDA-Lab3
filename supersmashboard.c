@@ -31,6 +31,8 @@ int main()
     imprimirMatrizAdyacencia(cantidadNodos, filas);
     imprimirTiposCasilla(cantidadNodos, tipoCasilla);
 
+    (rand() % 6) + 1; // Dado del 1 al 6
+
     return 0;
 }
 
@@ -159,7 +161,7 @@ void buscarPosicionInicial(int cantidad, char *tipoCasilla, int *jugador)
     }
 }
 
-void tipoDePoder(int cantidad, int *jugador, int **tablero, char *tipoCasilla)
+void tipoDeEfecto(int cantidad, int *jugador, int **tablero, char *tipoCasilla)
 {
     // cantidad: cantidad de nodos del tablero
     // jugador: [personalidad, posicion, monedas, estrellas]
@@ -205,7 +207,13 @@ void tipoDePoder(int cantidad, int *jugador, int **tablero, char *tipoCasilla)
                 tableroAux[j][i] = tablero[i][j];
             }
         }
-        tablero = tableroAux;
+        for (i = 0; i < cantidad; i++)
+        {
+            for (j = 0; j < cantidad; j++)
+            {
+                tablero[i][j] = tableroAux[i][j];
+            }
+        }
     }
     else if (numeroProbabilidad >= 47 && numeroProbabilidad <= 51)
     {
@@ -384,10 +392,10 @@ int stringToInt(char string[])
 }
 
 // Funciones para las estructuras
-void insertarEnLista(lista *actual, char elemento)
+void insertarEnLista(lista *actual, int elemento)
 {
     nodo *nuevoNodo = (nodo *)malloc(sizeof(nodo));
-    nuevoNodo->simbolo = elemento;
+    nuevoNodo->casilla = elemento;
     nuevoNodo->sgte = NULL;
 
     if (actual->largo == 0)
@@ -431,10 +439,10 @@ void imprimirLista(nodo *lista)
     aux = lista;
     while (aux->sgte != NULL)
     {
-        printf("%c, ", aux->simbolo);
+        printf("%i, ", aux->casilla);
         aux = aux->sgte;
     }
-    printf("%c, ", aux->simbolo);
+    printf("%i, ", aux->casilla);
     printf("\n");
 
     return;
