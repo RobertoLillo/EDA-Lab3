@@ -12,7 +12,7 @@ int main()
     char tipoCasilla[cantidadNodos]; // [tipo, tipo, tipo, etc...]
     obtenerInformacionCasillas(cantidadNodos, tipoCasilla);
 
-    // Matriz de adyacencia: 0 no hay conexion, 1 si hay conexion
+    // Matriz de adyacencia: 0 no hay camino, 1 si hay camino
     int i, j;
     int tablero[cantidadNodos][cantidadNodos];
     int *filas[cantidadNodos];
@@ -22,7 +22,14 @@ int main()
     }
     llenarTablero(cantidadNodos, filas);
 
+    // Se busca la posicion inicial y se guarda en jugador
+    buscarPosicionInicial(cantidadNodos, tipoCasilla, jugador);
+
+    // Muestra de los datos adquiridos de la lectura del archivo
+    imprimirDatosJuego(cantidadNodos, condiciones);
+    imprimirDatosJugador(jugador);
     imprimirMatrizAdyacencia(cantidadNodos, filas);
+    imprimirTiposCasilla(cantidadNodos, tipoCasilla);
 
     return 0;
 }
@@ -132,6 +139,18 @@ void llenarTablero(int cantidad, int **tablero)
     }
 }
 
+void buscarPosicionInicial(int cantidad, char *tipoCasilla, int *jugador)
+{
+    int i;
+    for (i = 0; i < cantidad; i++)
+    {
+        if (tipoCasilla[i] == 'b')
+        {
+            jugador[1] = i + 1;
+        }
+    }
+}
+
 void tipoDePoder(int cantidad, int *jugador, int **tablero, char *tipoCasilla)
 {
     // cantidad: cantidad de nodos del tablero
@@ -144,7 +163,7 @@ void tipoDePoder(int cantidad, int *jugador, int **tablero, char *tipoCasilla)
     if (numeroProbabilidad <= 30)
     {
         // El jugador gana una moneda
-        jugador[2] = jugador[2] + 1; 
+        jugador[2] = jugador[2] + 1;
     }
     else if (numeroProbabilidad >= 31 && numeroProbabilidad <= 40)
     {
@@ -173,7 +192,7 @@ void tipoDePoder(int cantidad, int *jugador, int **tablero, char *tipoCasilla)
         int tableroAux[cantidad][cantidad];
         for (i = 0; i < cantidad; i++)
         {
-            for (j = 0; j < cantidad;j++)
+            for (j = 0; j < cantidad; j++)
             {
                 tableroAux[j][i] = tablero[i][j];
             }
@@ -245,7 +264,7 @@ void tipoDePoder(int cantidad, int *jugador, int **tablero, char *tipoCasilla)
                 tipoAux = tipoCasilla[tipo2];
                 tipoCasilla[tipo2] = tipoCasilla[tipo1];
                 tipoCasilla[tipo1] = tipoAux;
-                verificador = 1; 
+                verificador = 1;
             }
         }
     }
@@ -255,7 +274,29 @@ void tipoDePoder(int cantidad, int *jugador, int **tablero, char *tipoCasilla)
     }
 }
 
-void imprimirMatrizAdyacencia(int cantidad, int **tablero) 
+void imprimirDatosJuego(int cantidad, int *condiciones)
+{
+    printf("\nCantidad de nodos: %d\n", cantidad);
+    printf("Precio de cada estrella: %d\n", condiciones[0]);
+    printf("Estrellas necesarias para ganar: %d\n", condiciones[1]);
+}
+
+void imprimirDatosJugador(int *jugador)
+{
+    if (jugador[0] == 0)
+    {
+        printf("\nPersonalidad: %d (Ansioso)\n", jugador[0]);
+    }
+    else
+    {
+        printf("\nPersonalidad: %d (Acaparador)\n", jugador[0]);
+    }
+    printf("Posicion actual: %d\n", jugador[1]);
+    printf("Cantidad de monedas: %d\n", jugador[2]);
+    printf("Cantidad de estrellas: %d\n", jugador[3]);
+}
+
+void imprimirMatrizAdyacencia(int cantidad, int **tablero)
 {
     int i, j;
     printf("\nMatriz de adyancencia:\n  1 2 3 4 5 6 7 8 9 0 1\n");
@@ -279,6 +320,32 @@ void imprimirMatrizAdyacencia(int cantidad, int **tablero)
     printf("\n");
 }
 
+void imprimirTiposCasilla(int cantidad, char *tipoCasilla)
+{
+    int i;
+    for (i = 0; i < cantidad; i++)
+    {
+        if (tipoCasilla[i] == 'b')
+        {
+            printf("Nodo %d: %c (Casilla inicial)\n", i + 1, tipoCasilla[i]);
+        }
+        else if (tipoCasilla[i] == '?')
+        {
+            printf("Nodo %d: %c (Casilla de efecto)\n", i + 1, tipoCasilla[i]);
+        }
+        else if (tipoCasilla[i] == '*')
+        {
+            printf("Nodo %d: %c (Casilla de estrella)\n", i + 1, tipoCasilla[i]);
+        }
+        else
+        {
+            printf("Nodo %d: %c (%c monedas)\n", i + 1, tipoCasilla[i], tipoCasilla[i]);
+        }
+        
+    }
+    printf("\n");
+}
+
 int stringToInt(char string[])
 {
     int i, numero;
@@ -290,4 +357,90 @@ int stringToInt(char string[])
     }
 
     return numero;
+}
+
+// Funciones para las estructuras
+void insertarEnLista(lista *actual, char elemento)
+{
+    nodo *nuevoNodo = (nodo *)malloc(sizeof(nodo));
+    nuevoNodo->simbolo = elemento;
+    nuevoNodo->sgte = NULL;
+
+    if (actual->largo == 0)
+    {
+        actual->inicio = nuevoNodo;
+        actual->largo = 1;
+    }
+    else
+    {
+        int i;
+        nodo *aux = actual->inicio;
+        for (i = 0; i < (actual->largo - 1); i++)
+        {
+            aux = aux->sgte;
+        }
+        aux->sgte = nuevoNodo;
+        actual->largo++;
+    }
+}
+
+lista borrarLista(lista actual)
+{
+    int i;
+    nodo *aux = actual.inicio;
+    while (aux->sgte != NULL)
+    {
+        actual.inicio = aux->sgte;
+        free(aux);
+        actual.largo--;
+        aux = actual.inicio;
+    }
+    free(aux);
+
+    return actual;
+}
+
+void imprimirLista(nodo *lista)
+{
+    nodo *aux;
+    aux = lista;
+    while (aux->sgte != NULL)
+    {
+        printf("%c, ", aux->simbolo);
+        aux = aux->sgte;
+    }
+    printf("%c, ", aux->simbolo);
+    printf("\n");
+
+    return;
+}
+
+matriz insertarListaEnMatriz(matriz actual, lista *ingresar)
+{
+    if (actual.cantidadDeListas == 0)
+    {
+        actual.alto = 1;
+        actual.ancho = ingresar->largo;
+        actual.cantidadDeListas = 1;
+        actual.matrix = ingresar;
+    }
+    else
+    {
+        int i;
+        lista *aux1 = actual.matrix;
+        lista *aux2 = actual.matrix;
+
+        for (i = 0; i < (actual.cantidadDeListas - 1); i++)
+        {
+            aux1 = aux1->sgte;
+            aux2 = aux2->sgte;
+        }
+        aux1->sgte = ingresar;
+        aux1 = aux1->sgte;
+        aux1->ant = aux2;
+        actual.alto++;
+        actual.cantidadDeListas++;
+    }
+
+    return actual;
 }
