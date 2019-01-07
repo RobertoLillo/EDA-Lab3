@@ -31,7 +31,7 @@ int main()
     imprimirMatrizAdyacencia(cantidadNodos, filas);
     imprimirTiposCasilla(cantidadNodos, tipoCasilla);
 
-    (rand() % 6) + 1; // Dado del 1 al 6
+    int dado = (rand() % 6) + 1; // Dado del 1 al 6
 
     return 0;
 }
@@ -180,7 +180,7 @@ void tipoDeEfecto(int cantidad, int *jugador, int **tablero, char *tipoCasilla)
         // El jugador se teletransporta
         int posicionNueva;
         int verificador = 0;
-        while (verificador = 0)
+        while (verificador == 0)
         {
             posicionNueva = (rand() % cantidad) + 1; // Numero de 1 a cantidad
             if (posicionNueva != jugador[1])
@@ -220,7 +220,7 @@ void tipoDeEfecto(int cantidad, int *jugador, int **tablero, char *tipoCasilla)
         // Se agrega un camino
         int nodo1, nodo2;
         int verificador = 0;
-        while (verificador = 0)
+        while (verificador == 0)
         {
             nodo1 = (rand() % cantidad) + 1; // Numero de 1 a cantidad
             nodo2 = (rand() % cantidad) + 1; // Numero de 1 a cantidad
@@ -235,7 +235,7 @@ void tipoDeEfecto(int cantidad, int *jugador, int **tablero, char *tipoCasilla)
         // Se elimina un camino
         int i, nodo1, nodo2, cantidadCaminos, contador;
         int verificador = 0;
-        while (verificador = 0)
+        while (verificador == 0)
         {
             cantidadCaminos = 0;
             nodo1 = (rand() % cantidad) + 1; // Numero de 1 a cantidad
@@ -271,7 +271,7 @@ void tipoDeEfecto(int cantidad, int *jugador, int **tablero, char *tipoCasilla)
         char tipoAux;
         int tipo1, tipo2;
         int verificador = 0;
-        while (verificador = 0)
+        while (verificador == 0)
         {
             tipo1 = (rand() % cantidad) + 1;
             tipo2 = (rand() % cantidad) + 1;
