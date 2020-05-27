@@ -1,2 +1,2 @@
-# EDALab3
-Lab 3 EDA C (2-2018)
+# EDA-Lab3
+ Lab 3 Análisis de algoritmos y Estructuras de Datos. C. (2-2018).
